@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ganta Harika — Portfolio</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --navy:#1F4E79;--blue:#2E75B6;--light-blue:#5B9BD5;
+    --bg:#0a0f1e;--surface:#111827;--surface2:#1a2236;
+    --text:#e8eaf0;--muted:#8892a4;--border:#1e2d47;
+    --accent:#2E75B6;--accent2:#5B9BD5;
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;overflow-x:hidden}
+
+  /* NAV */
+  nav{position:fixed;top:0;width:100%;background:rgba(10,15,30,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:999;padding:0 2rem}
+  .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+  .logo{font-size:1.1rem;font-weight:700;color:var(--accent2);letter-spacing:1px}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:0.85rem;letter-spacing:0.5px;transition:color 0.2s}
+  .nav-links a:hover{color:var(--text)}
+  .nav-resume-btn{background:var(--accent);color:#fff;padding:7px 18px;border-radius:7px;text-decoration:none;font-size:0.8rem;font-weight:600;transition:background 0.2s;white-space:nowrap}
+  .nav-resume-btn:hover{background:#1F4E79}
+
+  /* HERO */
+  #hero{min-height:100vh;display:flex;align-items:center;padding:80px 2rem 2rem;background:radial-gradient(ellipse at 20% 50%, rgba(46,117,182,0.12) 0%, transparent 60%)}
+  .hero-inner{max-width:1100px;margin:0 auto}
+  .hero-badge{display:inline-block;background:rgba(46,117,182,0.15);border:1px solid rgba(46,117,182,0.4);color:var(--accent2);font-size:0.75rem;letter-spacing:1.5px;padding:6px 16px;border-radius:20px;margin-bottom:1.5rem;text-transform:uppercase}
+  .hero-name{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;line-height:1.1;margin-bottom:0.5rem}
+  .hero-name span{color:var(--accent2)}
+  .hero-tagline{font-size:1.1rem;color:var(--muted);margin-bottom:0.75rem}
+  .hero-sub{font-size:0.9rem;color:var(--muted);margin-bottom:2rem}
+  .hero-sub span{color:var(--accent2)}
+  .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem}
+  .btn-primary{background:var(--accent);color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-size:0.9rem;font-weight:600;transition:background 0.2s}
+  .btn-primary:hover{background:#1F4E79}
+  .btn-outline{border:1px solid var(--accent);color:var(--accent2);padding:12px 28px;border-radius:8px;text-decoration:none;font-size:0.9rem;font-weight:600;transition:all 0.2s}
+  .btn-outline:hover{background:rgba(46,117,182,0.1)}
+  .stats{display:flex;gap:2.5rem;flex-wrap:wrap}
+  .stat-num{font-size:2rem;font-weight:800;color:var(--accent2)}
+  .stat-label{font-size:0.75rem;color:var(--muted);letter-spacing:0.5px}
+
+  /* SECTIONS */
+  section{padding:80px 2rem}
+  .section-inner{max-width:1100px;margin:0 auto}
+  .section-label{font-size:0.75rem;letter-spacing:2px;color:var(--accent2);text-transform:uppercase;margin-bottom:0.5rem}
+  .section-title{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;margin-bottom:0.5rem}
+  .section-subtitle{color:var(--muted);font-size:0.9rem;font-family:monospace;margin-bottom:3rem}
+
+  /* ABOUT */
+  #about{background:var(--surface)}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+  .about-text p{color:var(--muted);margin-bottom:1rem;line-height:1.8}
+  .about-text strong{color:var(--text)}
+  .about-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .about-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem;text-align:center}
+  .about-card .num{font-size:1.8rem;font-weight:800;color:var(--accent2)}
+  .about-card .lbl{font-size:0.75rem;color:var(--muted);letter-spacing:0.5px}
+
+  /* SKILLS */
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+  .skill-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+  .skill-header{display:flex;align-items:center;gap:12px;margin-bottom:1rem}
+  .skill-icon{width:40px;height:40px;background:rgba(46,117,182,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+  .skill-name{font-weight:600;font-size:0.95rem}
+  .skill-level{font-size:0.75rem;color:var(--accent2)}
+  .skill-bar{height:4px;background:var(--border);border-radius:2px;margin:0.5rem 0}
+  .skill-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--navy),var(--accent2))}
+  .skill-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:0.75rem}
+  .tag{background:rgba(46,117,182,0.1);border:1px solid rgba(46,117,182,0.25);color:var(--accent2);font-size:0.7rem;padding:3px 10px;border-radius:12px}
+
+  /* PROJECTS */
+  #projects{background:var(--surface)}
+  .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem}
+  .project-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:1.75rem;position:relative;overflow:hidden;transition:border-color 0.2s,transform 0.2s}
+  .project-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .project-badge{display:inline-block;font-size:0.7rem;letter-spacing:1px;padding:4px 12px;border-radius:12px;margin-bottom:1rem;text-transform:uppercase;font-weight:600}
+  .badge-ongoing{background:rgba(91,155,213,0.15);color:var(--accent2);border:1px solid rgba(91,155,213,0.3)}
+  .badge-done{background:rgba(31,78,121,0.2);color:#7fb3d3;border:1px solid rgba(31,78,121,0.4)}
+  .project-num{font-size:0.7rem;color:var(--muted);letter-spacing:1px;margin-bottom:0.4rem}
+  .project-title{font-size:1.1rem;font-weight:700;margin-bottom:0.5rem}
+  .project-sub{font-size:0.78rem;color:var(--accent2);margin-bottom:0.75rem}
+  .project-desc{font-size:0.85rem;color:var(--muted);line-height:1.7;margin-bottom:1rem}
+  .project-stack{display:flex;flex-wrap:wrap;gap:6px}
+
+  /* EDUCATION */
+  .edu-timeline{position:relative;padding-left:2rem}
+  .edu-timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:var(--border)}
+  .edu-item{position:relative;margin-bottom:2.5rem}
+  .edu-dot{position:absolute;left:-2rem;top:4px;width:14px;height:14px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+  .edu-year{font-size:0.75rem;color:var(--accent2);letter-spacing:1px;margin-bottom:0.25rem}
+  .edu-degree{font-size:1.1rem;font-weight:700;margin-bottom:0.25rem}
+  .edu-school{font-size:0.85rem;color:var(--muted);margin-bottom:0.25rem}
+  .edu-cgpa{font-size:0.8rem;color:var(--accent2)}
+
+  /* INTERNSHIP */
+  #experience{background:var(--surface)}
+  .exp-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:2rem}
+  .exp-header{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.5rem}
+  .exp-icon{width:52px;height:52px;background:rgba(46,117,182,0.15);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+  .exp-role{font-size:1.1rem;font-weight:700}
+  .exp-org{color:var(--accent2);font-size:0.85rem}
+  .exp-dur{color:var(--muted);font-size:0.8rem}
+  .exp-list{list-style:none;padding:0}
+  .exp-list li{color:var(--muted);font-size:0.85rem;line-height:1.7;padding:0.4rem 0 0.4rem 1.2rem;position:relative}
+  .exp-list li::before{content:'▸';position:absolute;left:0;color:var(--accent2)}
+
+  /* ACHIEVEMENTS */
+  .achieve-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem}
+  .achieve-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;transition:border-color 0.2s}
+  .achieve-card:hover{border-color:var(--accent)}
+  .achieve-icon{font-size:1.8rem;margin-bottom:0.75rem}
+  .achieve-title{font-weight:700;margin-bottom:0.5rem;font-size:0.95rem}
+  .achieve-desc{font-size:0.82rem;color:var(--muted);line-height:1.6}
+  .achieve-highlight{color:var(--accent2);font-weight:600}
+
+  /* CONTACT */
+  #contact{background:var(--surface);text-align:center}
+  .contact-inner{max-width:600px;margin:0 auto}
+  .contact-links{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-top:2rem}
+  .contact-link{display:flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;font-size:0.85rem;padding:12px 20px;border:1px solid var(--border);border-radius:10px;transition:all 0.2s}
+  .contact-link:hover{border-color:var(--accent);color:var(--accent2)}
+  .contact-link span{font-size:1.2rem}
+
+  /* FOOTER */
+  footer{text-align:center;padding:2rem;font-size:0.8rem;color:var(--muted);border-top:1px solid var(--border)}
+
+  @media(max-width:768px){
+    .about-grid{grid-template-columns:1fr}
+    .nav-links{display:none}
+    .stats{gap:1.5rem}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">GH.dev</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#achievements">Achievements</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="Ganta_Harika_Resume.docx" download class="nav-resume-btn">⬇ Resume</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Open to Internships &amp; Fresher Roles</div>
+    <h1 class="hero-name">Ganta <span>Harika</span><br>Naga Satya Lakshmi</h1>
+    <p class="hero-tagline">Aspiring Electronics &amp; Communication Engineer | ECE Student</p>
+    <p class="hero-sub">C · Java · Python · HTML/CSS · ECE · <span>Andhra Pradesh, India</span></p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">View My Work ↓</a>
+      <a href="https://github.com/gantaharika10-rgb" class="btn-outline" target="_blank">⚯ GitHub</a>
+      <a href="#contact" class="btn-outline">Contact Me →</a>
+    </div>
+    <div class="stats">
+      <div>
+        <div class="stat-num">8.5</div>
+        <div class="stat-label">B.Tech CGPA</div>
+      </div>
+      <div>
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Months Interning</div>
+      </div>
+      <div>
+        <div class="stat-num">2</div>
+        <div class="stat-label">Hackathon Certs</div>
+      </div>
+      <div>
+        <div class="stat-num">🥈</div>
+        <div class="stat-label">Runner-Up Award</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label">01 — About Me</div>
+    <h2 class="section-title">Turning curiosity<br>into code</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm an <strong>Electronics &amp; Communication Engineering (ECE) student</strong> at Vishnu Institute of Technology, Andhra Pradesh, pursuing my B.Tech with a strong 8.5 CGPA.</p>
+        <p>Currently interning at <strong>TEN – The Entrepreneurship Network</strong>, I'm building real-world software projects while collaborating with cross-functional teams in an agile environment.</p>
+        <p>As an ECE student with a passion for software, I bridge the gap between hardware fundamentals and modern development — working with Python, Java, ML, and web technologies.</p>
+        <p>Seeking an <strong>internship or fresher role</strong> in embedded systems, software development, or IoT where I can bring initiative, curiosity, and drive to a great team.</p>
+      </div>
+      <div>
+        <div class="about-cards">
+          <div class="about-card">
+            <div class="num">8.5</div>
+            <div class="lbl">B.Tech CGPA</div>
+          </div>
+          <div class="about-card">
+            <div class="num">3+</div>
+            <div class="lbl">Months Interning</div>
+          </div>
+          <div class="about-card">
+            <div class="num">🥈</div>
+            <div class="lbl">Hackathon Runner-Up</div>
+          </div>
+          <div class="about-card">
+            <div class="num">2026</div>
+            <div class="lbl">E-Summit Participant</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-label">02 — Skills</div>
+    <h2 class="section-title">My Tech Stack</h2>
+    <p class="section-subtitle">// ECE core + software skills — rated honestly</p>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">⚙️</div>
+          <div>
+            <div class="skill-name">C Programming</div>
+            <div class="skill-level">Professional</div>
+          </div>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+        <div class="skill-tags">
+          <span class="tag">Pointers</span><span class="tag">Memory Mgmt</span><span class="tag">Modular Code</span><span class="tag">Logic</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">☕</div>
+          <div>
+            <div class="skill-name">Java</div>
+            <div class="skill-level">Intermediate</div>
+          </div>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div>
+        <div class="skill-tags">
+          <span class="tag">OOP</span><span class="tag">Classes</span><span class="tag">Inheritance</span><span class="tag">Exception Handling</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">🐍</div>
+          <div>
+            <div class="skill-name">Python</div>
+            <div class="skill-level">Intermediate</div>
+          </div>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div>
+        <div class="skill-tags">
+          <span class="tag">Flask</span><span class="tag">ML Integration</span><span class="tag">Scripting</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">📡</div>
+          <div>
+            <div class="skill-name">ECE Core</div>
+            <div class="skill-level">Foundational</div>
+          </div>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
+        <div class="skill-tags">
+          <span class="tag">Digital Systems</span><span class="tag">Basic Electronics</span><span class="tag">Circuit Design</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">🌐</div>
+          <div>
+            <div class="skill-name">Web Technologies</div>
+            <div class="skill-level">Intermediate</div>
+          </div>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" style="width:55%"></div></div>
+        <div class="skill-tags">
+          <span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">🔀</div>
+          <div>
+            <div class="skill-name">Git &amp; GitHub</div>
+            <div class="skill-level">Intermediate</div>
+          </div>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div>
+        <div class="skill-tags">
+          <span class="tag">Version Control</span><span class="tag">Branching</span><span class="tag">Pull Requests</span><span class="tag">GitHub Pages</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">🤝</div>
+          <div>
+            <div class="skill-name">Soft Skills</div>
+            <div class="skill-level">Strong</div>
+          </div>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+        <div class="skill-tags">
+          <span class="tag">Negotiation</span><span class="tag">Communication</span><span class="tag">Teamwork</span><span class="tag">Problem-Solving</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-label">03 — Projects</div>
+    <h2 class="section-title">What I'm Building</h2>
+    <p class="section-subtitle">// Real-world software projects built during internship at TEN</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <span class="project-badge badge-ongoing">AI · ML ⚡</span>
+        <div class="project-num">PROJECT_01</div>
+        <div class="project-title">AI-Based Product Price Negotiation Chatbot</div>
+        <div class="project-sub">Python · Flask · MySQL · Machine Learning · NLP · Voice AI</div>
+        <div class="project-desc">An intelligent chatbot that negotiates product prices with customers in real time — replacing fixed pricing with ML-driven discount prediction. Supports both text-based and voice-based negotiation interfaces. Built the Flask backend, MySQL integration, user authentication, chatbot workflow, and review sentiment analysis module end-to-end.</div>
+        <div class="project-stack">
+          <span class="tag">Python</span><span class="tag">Flask</span><span class="tag">MySQL</span><span class="tag">Machine Learning</span><span class="tag">NLP</span><span class="tag">Voice Chatbot</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <span class="project-badge badge-done">Deployed ✓</span>
+        <div class="project-num">PROJECT_02</div>
+        <div class="project-title">ServEase – Smart Home Service Web App</div>
+        <div class="project-sub">HTML · CSS · JavaScript · GitHub Pages · localStorage</div>
+        <div class="project-desc">A responsive web application connecting users with verified home service professionals — electricians, plumbers, cleaners and more. Features service booking, location input, scheduling, and a dedicated Emergency Mode for urgent requests. Deployed live on GitHub Pages with localStorage for client-side data persistence.</div>
+        <div class="project-stack">
+          <span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span><span class="tag">localStorage</span><span class="tag">GitHub Pages</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <span class="project-badge badge-ongoing">In Progress ⚡</span>
+        <div class="project-num">PROJECT_03</div>
+        <div class="project-title">Software Projects @ TEN Organisation</div>
+        <div class="project-sub">Internship · Software Development · Team Collaboration</div>
+        <div class="project-desc">Building practical, scalable software solutions as part of the TEN – The Entrepreneurship Network internship program. Applying core Java and Python concepts while collaborating in agile team workflows.</div>
+        <div class="project-stack">
+          <span class="tag">Java</span><span class="tag">Python</span><span class="tag">Git</span><span class="tag">Agile</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-inner">
+    <div class="section-label">04 — Education</div>
+    <h2 class="section-title">Academic Journey</h2>
+    <div class="edu-timeline">
+      <div class="edu-item">
+        <div class="edu-dot"></div>
+        <div class="edu-year">2025 — PRESENT</div>
+        <div class="edu-degree">🎓 B.Tech — Electronics &amp; Communication Engineering (ECE)</div>
+        <div class="edu-school">Vishnu Institute of Technology · Dr. BR Ambedkar Konaseema District, Andhra Pradesh</div>
+        <div class="edu-cgpa">CGPA 8.5 / 10.0 · Expected 2029</div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-dot"></div>
+        <div class="edu-year">INTERMEDIATE (11th &amp; 12th)</div>
+        <div class="edu-degree">📘 Intermediate — MPC</div>
+        <div class="edu-school">Vignan Junior College · Guntur, Andhra Pradesh</div>
+        <div class="edu-cgpa">963 / 1000 · Grade: A+ (96.3%)</div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-dot"></div>
+        <div class="edu-year">10th GRADE — SSC</div>
+        <div class="edu-degree">🏫 Secondary School Certificate (SSC)</div>
+        <div class="edu-school">Ambajipeta High School · Ambajipeta, Andhra Pradesh</div>
+        <div class="edu-cgpa">526 / 600 · Grade: A (87.7%)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-label">05 — Experience</div>
+    <h2 class="section-title">Work &amp; Training</h2>
+    <div class="exp-card">
+      <div class="exp-header">
+        <div class="exp-icon">🚀</div>
+        <div>
+          <div class="exp-role">Software Intern</div>
+          <div class="exp-org">TEN – The Entrepreneurship Network</div>
+          <div class="exp-dur">3 Months · Ongoing · 2026</div>
+        </div>
+      </div>
+      <ul class="exp-list">
+        <li>Working on real-world software projects under the guidance of industry mentors at TEN organisation.</li>
+        <li>Collaborating with cross-functional teams to design, build, and deliver functional software solutions.</li>
+        <li>Gaining hands-on experience with agile workflows, project planning, and iterative development.</li>
+        <li>Applying Java and Python skills in a professional team environment with version control using Git.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="section-inner">
+    <div class="section-label">06 — Achievements</div>
+    <h2 class="section-title">Awards &amp; Participation</h2>
+    <div class="achieve-grid">
+      <div class="achieve-card">
+        <div class="achieve-icon">🥈</div>
+        <div class="achieve-title">Runner-Up Award</div>
+        <div class="achieve-desc">Won <span class="achieve-highlight">Runner-Up</span> at the College Hackathon, Vishnu Institute of Technology — delivered a working solution under competition pressure.</div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">📜</div>
+        <div class="achieve-title">Hackathon Certificates</div>
+        <div class="achieve-desc">Received <span class="achieve-highlight">2 certificates</span> of participation in college hackathon programmes at VIT.</div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">🌊</div>
+        <div class="achieve-title">WAVE – VIT</div>
+        <div class="achieve-desc">Participated in <span class="achieve-highlight">WAVE</span>, Vishnu Institute of Technology's annual tech fest — networking, events, and tech challenges.</div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">💡</div>
+        <div class="achieve-title">E-Summit 2026</div>
+        <div class="achieve-desc">Participated in <span class="achieve-highlight">E-Summit 2026</span> — entrepreneurship and innovation summit focused on startup culture and ideation.</div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">🎙️</div>
+        <div class="achieve-title">Radio Vishnu Club</div>
+        <div class="achieve-desc">Active member of <span class="achieve-highlight">Radio Vishnu Club</span> — campus radio &amp; communication club at Vishnu Institute of Technology.</div>
+      </div>
+      <div class="achieve-card">
+        <div class="achieve-icon">💚</div>
+        <div class="achieve-title">Hope Club</div>
+        <div class="achieve-desc">Member of <span class="achieve-highlight">Hope Club</span> at Vishnu Institute of Technology — community-focused student initiative.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-inner">
+      <div class="section-label" style="text-align:center">07 — Contact</div>
+      <h2 class="section-title" style="text-align:center">Let's Connect</h2>
+      <p style="color:var(--muted);margin-bottom:0.5rem">Open to internships, fresher roles &amp; collaborations</p>
+      <div class="contact-links">
+        <a href="mailto:gantharika10@gmail.com" class="contact-link">
+          <span>✉️</span>
+          <div>
+            <div style="font-size:0.7rem;letter-spacing:1px;color:var(--muted)">EMAIL</div>
+            <div style="color:var(--accent2)">gantharika10@gmail.com</div>
+          </div>
+        </a>
+        <a href="tel:+919030049199" class="contact-link">
+          <span>📞</span>
+          <div>
+            <div style="font-size:0.7rem;letter-spacing:1px;color:var(--muted)">PHONE</div>
+            <div style="color:var(--accent2)">+91 9030049199</div>
+          </div>
+        </a>
+        <a href="https://github.com/gantaharika10-rgb" class="contact-link" target="_blank">
+          <span>⚯</span>
+          <div>
+            <div style="font-size:0.7rem;letter-spacing:1px;color:var(--muted)">GITHUB</div>
+            <div style="color:var(--accent2)">gantaharika10-rgb</div>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/harika-naga-satya-lakshmi-ganta-75093b368" class="contact-link" target="_blank">
+          <span>💼</span>
+          <div>
+            <div style="font-size:0.7rem;letter-spacing:1px;color:var(--muted)">LINKEDIN</div>
+            <div style="color:var(--accent2)">harika-naga-satya-lakshmi-ganta</div>
+          </div>
+        </a>
+      </div>
+      <div style="margin-top:2rem;font-size:0.82rem;color:var(--muted)">
+        📍 Ambajipeta, Andhra Pradesh, India
+        &nbsp;·&nbsp; Telugu — Native &nbsp;·&nbsp; Hindi — Proficient &nbsp;·&nbsp; English — Proficient
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Built with ❤️ by Ganta Harika Naga Satya Lakshmi · ECE Student &amp; Aspiring Engineer · © 2026
+</footer>
+
+</body>
+</html>
